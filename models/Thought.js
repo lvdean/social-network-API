@@ -1,5 +1,31 @@
 const { Schema, model} = require('mongoose');
 
+const reactionSchema = new Schema({
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        maxlength: 280
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (date) => timeSince(date),
+    }
+},
+{
+    toJSON: {
+        getters: true
+    }
+});
+
 const thoughtSchema = new Schema({
     thoughtText: {
         type: String,
@@ -9,19 +35,19 @@ const thoughtSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        get: (date) => timeSince(date),
     },
+    
     username: {
         type: String,
         required: true
     },
-    reactions: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Reaction'
-        }
-    ]
+    reactions: [reactionSchema]
 },
+{
+    timestamps: true,
+    toJSON: { getters: true, virtuals: true },
+  },
 {
     // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
     // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
@@ -32,13 +58,16 @@ const thoughtSchema = new Schema({
   }
 );
 
+
+
 // virtual that retrieves the length of the thought's reactions array field on query
 
 thoughtSchema.virtual('reactionCount')
 .get(function() {
     return this.reactions.length;
 });
-.set
+
 
 const Thought = model('Thought', thoughtSchema);
-const
+
+module.exports = Thought;

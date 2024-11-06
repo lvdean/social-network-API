@@ -1,10 +1,10 @@
-const { User, Thought } = require('../models');
+const { User} = require('../models');
 
 module.exports = {
     // get all users
     async getAllUsers(req, res) {
         try {
-            const users = await User.find().populate('friends').populate(Thought);
+            const users = await User.find().populate('friends').populate('thoughts');
             res.json(users);
         } catch (err) {
             console.log(err);
@@ -14,7 +14,7 @@ module.exports = {
     // get one user by id
     async getUserById(req, res) {
         try {
-            const user = await User.findById(req.params.id).populate('friends').populate(Thought);
+            const user = await User.findById(req.params.id).populate('friends').populate('thoughts');
             if (!user) {
                 res.status(404).json({ message: 'No user found with this id!' });
                 return;

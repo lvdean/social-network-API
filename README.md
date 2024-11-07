@@ -43,12 +43,7 @@ To run the application, within the terminal, type the command npm start.
 
 ## Demo
 
-<video src="./utils/demovid/Social-network-API.mp4" width="640" height="480" controls></video>
-
-
 https://github.com/user-attachments/assets/2c3ac4e0-a6f0-474c-a092-3cd6dacdd83d
-
-
 
 ## Badges
 
